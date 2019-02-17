@@ -1,0 +1,141 @@
+# node.jsのENOSPC no space left on device対策
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+# ホームディレクトリを英字表記に変更
+sudo apt install xdg-user-dirs-gtk
+LANG=C xdg-user-dirs-gtk-update
+
+# vagrantユーザーをグループに追加
+gpasswd -a vagrant vboxsf
+
+# ツール類の置き場を準備
+mkdir -p ~/tools
+
+# リポジトリ作成
+mkdir -p ~/Documents/repository/go/src/github.com/fitgogo/sampleProject
+GOPATH設定
+echo 'export GOPATH="$HOME/Documents/repository/go"' >> ~/.bashrc
+echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
+
+# 必要なアプリケーションをインストール
+
+* anyenv
+git clone https://github.com/riywo/anyenv ~/.anyenv
+echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(anyenv init -)"' >> ~/.bashrc
+exec $SHELL -l
+anyenv install ndenv
+anyenv install goenv
+exec $SHELL -l
+
+* mate-menu
+apt install mate-menu
+インストール後にメニューを変更
+
+* mate-zweak
+apt instal mate-zweak
+インストール後にデスクトップに表示するアイコンを変更
+
+* atom
+公式よりdebファイルをダウンロード
+https://atom.io/
+
+apt install git
+dpkg -i atom-amd64.deb
+
+必要なツールをインストール
+go get -u golang.org/x/tools/cmd/goimports
+go get -u golang.org/x/tools/cmd/gorename
+go get -u github.com/sqs/goreturns
+go get -u github.com/mdempsky/gocode
+go get -u github.com/alecthomas/gometalinter
+go get -u github.com/zmb3/gogetdoc
+go get -u github.com/zmb3/goaddimport
+go get -u github.com/rogpeppe/godef
+go get -u golang.org/x/tools/cmd/guru
+go get -u github.com/fatih/gomodifytags
+go get -u github.com/tpng/gopkgs
+golang.org/x/tools/cmd/stringer
+
+go-lang用のプラグインを追加
+apm install go-plus
+apm install godef
+
+vuejs typescript用のプラグインを追加
+apm install language-vue-component
+apm install atom-typescript
+
+eclipse
+mkdir -p tools/eclipse/photon
+# eclipseフォルダ内にlombok.jarをダウンロードして実行
+cd ~/tools/eclipse
+wget https://projectlombok.org/downloads/lombok.jar
+java -jar lombok.jar
+インストール後にメニューにeclipseを追加
+
+* gvim
+apt install vim-gnome
+インストール後にメニューのプログラムの項にeclipseを追加
+
+* docker
+
+https://docs.docker.com/install/linux/docker-ce/debian/
+
+sudo apt-get remove docker docker-engine docker.io
+sudo apt-get update
+sudo apt-get install \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+
+sudo apt-get update
+sudo apt-get install docker-ce
+
+mysql_containerをtoolsに配置
+cp -r ~/Documents/linuxVMshare/mysql_container ~/tools/
+
+# vagrantユーザーをグループに追加
+gpasswd -a vagrant docker
+
+# golang 開発ツールのインストール
+
+goのバージョンを指定
+goenv install 1.11.0
+goenv global 1.11.0
+
+* dep
+curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+* sqlboiler
+go get -u github.com/volatiletech/sqlboiler
+go get -u github.com/volatiletech/sqlboiler/drivers/sqlboiler-psql
+
+dep init
+dep ensure -add github.com/spf13/viper github.com/labstack/echo go.uber.org/zap gopkg.in/natefinch/lumberjack.v2 github.com/lib/pq github.com/google/uuid github.com/jmoiron/sqlx github.com/volatiletech/sqlboiler
+
+# nodejs 開発ツールのインストール
+
+nodejsのバージョンを指定
+ndenv install v10.10.0
+ndenv global v10.10.0
+
+# vue cliのインストール
+cd _front_end
+npm install @vue/cli
+$(npm bin)/vue --version
+
+$(npm bin)/vue create project
+
+# elementのインストール
+cd project
+npm install @vue/cli
+$(npm bin)/vue add element
+
+
+
+
+
