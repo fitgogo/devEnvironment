@@ -24,7 +24,7 @@ git clone https://github.com/riywo/anyenv ~/.anyenv
 echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 exec $SHELL -l
-anyenv install ndenv
+anyenv install nodenv
 anyenv install goenv
 exec $SHELL -l
 
